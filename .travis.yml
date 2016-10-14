@@ -1,0 +1,23 @@
+sudo: false
+language: go
+go:
+- 1.7
+install:
+- bash scripts/gogetcookie.sh
+script:
+- go get github.com/mitchellh/gox
+- gox -arch="amd64" -os="windows linux darwin" -output "dist/{{.OS}}-{{.Arch}}/{{.Dir}}" .
+- zip -j packer-post-processor-vagrant-azure-windows-amd64-${TRAVIS_TAG}.zip ./dist/windows-amd64/*
+- tar -cvzf packer-post-processor-vagrant-azure-linux-amd64-${TRAVIS_TAG}.tar.gz -C dist/linux-amd64/ .
+- tar -cvzf packer-post-processor-vagrant-azure-darwin-amd64-${TRAVIS_TAG}.tar.gz -C dist/darwin-amd64/ .
+deploy:
+  provider: releases
+  api_key:
+    secure: CutCPIncifzzS42ihkBxGIbpYwMBaQPcjAmzsB/vIPHnlMmP26Wg011wn7tlUIqhaX6GFseoowsfsDE5EXmOCautDkhnd4LMJxDlQ5XJSL4BEF0HBafySwKVw4U30L0RrSwChbamwcPaRAwgxRZ2zLlYDIs9OvzHW6sXidvbqA7xzS8uAl9zEcFLllgfhFsOVmDAPKP/o98ysvVZefkOI29WeW2C6fu+2s3BiP4YVdhcl1sctQk58wtdHEMg/McDX/U1q/hlMv7BY2FMs6jmTqiMlvTGeV00RARMApvfqfxiowJI3nuBRH4Mp/gtM+9rFw8TidaHGTvWC9WGqP4SJxVDk+7PXXfjMrN/riG709/oIgc4BPi9hbwdoTTwsMg74BhiZviswdZam8jUh2ge2uWnmhMfVuGz/5uxraewZaEhdr91RT+AvhM+rJVirHGCH+VDOP/4I4oUyoJeyTM1WfrGXMd2Vs/rRbP6DooqnyfQ77Lp72bsUp8RTM9B3CuoFMuEtEGKs44YDzvg22FHkCusyZG9D3jFoYINC4OS9sSO9WIqtXoQhE807HhB77QlS60bOcXzIy6ntyVNZxD51pVwXm+Dp6aeMAvP3mepfau/7gXW7OPxs6TPXxfVrn+f+jVRy2ByB6kGOcNJnhcqHeKmBUJiEfvv+A3FTMru6Ho=
+  file: 
+    - packer-post-processor-vagrant-azure-windows-amd64-${TRAVIS_TAG}.zip
+    - packer-post-processor-vagrant-azure-linux-amd64-${TRAVIS_TAG}.tar.gz
+    - packer-post-processor-vagrant-azure-darwin-amd64-${TRAVIS_TAG}.tar.gz 
+  on:
+    tags: true
+    repo: gauchoconsulting/packer-post-processor-vagrant-azure
