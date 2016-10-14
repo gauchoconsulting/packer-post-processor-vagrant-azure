@@ -2,8 +2,6 @@ sudo: false
 language: go
 go:
 - 1.7
-install:
-- bash scripts/gogetcookie.sh
 script:
 - go get github.com/mitchellh/gox
 - gox -arch="amd64" -os="windows linux darwin" -output "dist/{{.OS}}-{{.Arch}}/{{.Dir}}" .

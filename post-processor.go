@@ -94,9 +94,9 @@ func (p *PostProcessor) Configure(raws ...interface{}) error {
 
 func (p *PostProcessor) PostProcess(ui packer.Ui, artifact packer.Artifact) (packer.Artifact, bool, error) {
 	// Only accept input from the vagrant post-processor
-	//if artifact.BuilderId() != "mitchellh.post-processor.vagrant" {
-	//	return nil, false, fmt.Errorf("Unknown artifact type, requires box from vagrant post-processor: %s", artifact.BuilderId())
-	//}
+	if artifact.BuilderId() != "mitchellh.post-processor.vagrant" {
+		return nil, false, fmt.Errorf("Unknown artifact type, requires box from vagrant post-processor: %s", artifact.BuilderId())
+	}
 
 	// Assume there is only one .box file to upload
 	box := artifact.Files()[0]

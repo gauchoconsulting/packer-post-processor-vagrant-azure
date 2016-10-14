@@ -1,6 +1,8 @@
 Packer Vagrant azure post-processor
 ================================
 
+[![Build Status](https://travis-ci.org/gauchoconsulting/packer-post-processor-vagrant-azure.svg?branch=master)](https://travis-ci.org/gauchoconsulting/packer-post-processor-vagrant-azure)
+
 Uploads built Vagrant boxes to azure and manages a manifest file for versioned boxes.
 
 Based of: https://github.com/lmars/packer-post-processor-vagrant-s3
